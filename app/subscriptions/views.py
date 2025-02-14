@@ -43,6 +43,11 @@ class MailingViewSet(viewsets.GenericViewSet):
         serializer = self.get_serializer_class()(data=request_data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+        if request_data.get('recipients'):
+            for user_id in request_data.get('recipients'):
+                serializer.instance.users.add(user_id)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @list_route(methods=['GET'])
@@ -67,6 +72,11 @@ class MailingViewSet(viewsets.GenericViewSet):
 class MailingsListView(generics.ListAPIView):
     queryset = Mailing.objects.all()
     renderer_classes = (TemplateHTMLRenderer,)
+
+    def get_queryset(self):
+        self.queryset = super(MailingsListView, self).get_queryset() \
+            .prefetch_related('users')
+        return self.queryset
 
     def get(self, request, *args, **kwargs):
         return Response(

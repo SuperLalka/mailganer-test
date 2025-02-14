@@ -7,7 +7,6 @@ django-environ==0.4.5  # https://github.com/joke2k/django-environ
 django-extensions==2.1.0  # https://github.com/django-extensions/django-extensions
 Werkzeug==0.16.1  # https://github.com/pallets/werkzeug
 pathlib==1.0.1  # https://github.com/budlight/pathlib
-django-tinymce==2.6.0  # https://github.com/jazzband/django-tinymce
 
 redis==3.5.3  # https://github.com/antirez/redis
 celery==4.0.0  # https://github.com/celery/celery

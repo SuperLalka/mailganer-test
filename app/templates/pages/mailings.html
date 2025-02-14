@@ -7,8 +7,10 @@
 	<thead>
 	<tr>
 		<th scope="col">#</th>
-		<th scope="col">Title</th>
+		<th scope="col">title</th>
+		<th scope="col">sending_time</th>
 		<th scope="col">is_completed</th>
+		<th scope="col">recipients</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -16,7 +18,17 @@
 	<tr>
 		<td>{{ mailing.id }}</td>
 		<td>{{ mailing.title }}</td>
+		<td>{{ mailing.sending_time }}</td>
 		<td>{{ mailing.is_completed }}</td>
+		<td>
+			<ul>
+				{% for user in mailing.users.all %}
+				<li>
+					{{ user.email }}
+				</li>
+				{% endfor %}
+			</ul>
+		</td>
 	</tr>
 	{% endfor %}
 	</tbody>

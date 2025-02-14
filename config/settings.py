@@ -51,7 +51,6 @@ THIRD_PARTY_APPS = [
     'django_celery_beat',
     'django_extensions',
     'rest_framework',
-    'tinymce',
 ]
 
 LOCAL_APPS = [

@@ -14,11 +14,12 @@ function newMailingFormProcessing(event) {
     let data = {
         'title': $(this).find('input[id="titleInput"]').val(),
         'content': $(this).find('textarea[id="contentTextarea"]').val(),
-        'sending_time': null
+        'recipients': $(this).find('select[id="recipientsSelect"]').val(),
+        'sending_time': null,
     };
 
     if (sending_time) {
-        data['sending_time'] = Date.parse(sending_time)/1000;
+        data['sending_time'] = sending_time;
     }
 
     $.ajax({
@@ -38,4 +39,6 @@ function newMailingFormProcessing(event) {
 function clearModal() {
     $('.modal').find('input').val('');
     $('.modal').find('textarea').val('');
+    $('.modal').find('option').removeAttr("selected");
+    $('#newMailingModal').modal('hide');
 }
