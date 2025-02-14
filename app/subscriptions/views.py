@@ -1,7 +1,8 @@
 from django.core import signing
 from django.shortcuts import get_object_or_404
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, generics
 from rest_framework.decorators import list_route
+from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 
 from app.subscriptions.models import Mailing
@@ -61,3 +62,14 @@ class MailingViewSet(viewsets.GenericViewSet):
         instance.is_valid(raise_exception=True)
         instance.save()
         return Response(status=status.HTTP_201_CREATED)
+
+
+class MailingsListView(generics.ListAPIView):
+    queryset = Mailing.objects.all()
+    renderer_classes = (TemplateHTMLRenderer,)
+
+    def get(self, request, *args, **kwargs):
+        return Response(
+            {'mailings': self.get_queryset()},
+            template_name='pages/mailings.html'
+        )

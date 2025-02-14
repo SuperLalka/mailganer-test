@@ -1,157 +1,172 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}mailganer{% endblock title %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>{% block title %}mailganer{% endblock title %}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <![endif]-->
+		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+		<![endif]-->
 
-    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
+		<link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
 
-    {% block css %}
+		{% block css %}
 
-    <!-- Latest compiled and minified Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<!-- Latest compiled and minified Bootstrap CSS -->
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+		      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <!-- Your stuff: Third-party CSS libraries go here -->
+		<!-- Your stuff: Third-party CSS libraries go here -->
 
-    <!-- This file stores project-specific CSS -->
+		<!-- This file stores project-specific CSS -->
 
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+		<link href="{% static 'css/styles.css' %}" rel="stylesheet">
 
-    {% endblock %}
+		{% endblock %}
 
-  </head>
+	</head>
 
-  <body>
+	<body>
 
-    <div class="mb-1">
-      <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" href="{% url 'home' %}">mailganer</a>
+		<div class="mb-1">
+			<nav class="navbar navbar-expand-md navbar-light bg-light">
+				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+				        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				        aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<a class="navbar-brand" href="{% url 'home' %}">mailganer</a>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">Mailing list</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">Users</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </div>
-    <div class="button-block col d-flex align-items-center justify-content-center">
-      <button type="button" class="btn btn-light btn-lg h-25" data-toggle="modal" data-target="#newMailingModal">
-        Создать новую рассылку
-      </button>
-    </div>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="{% url 'mailings_page' %}">Mailing list</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{% url 'users_page' %}">Users</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
 
-    <div class="container">
+		<div class="container">
 
-      {% if messages %}
-          {% for message in messages %}
-              <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
-          {% endfor %}
-      {% endif %}
+			{% if messages %}
+			{% for message in messages %}
+			<div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+			{% endfor %}
+			{% endif %}
 
-      {% block content %}
-      {% endblock content %}
+			{% block content %}
+			<div class="button-block col d-flex align-items-center justify-content-center">
+				<button type="button" class="btn btn-light btn-lg h-25" data-toggle="modal" data-target="#newMailingModal">
+					Создать новую рассылку
+				</button>
+			</div>
+			{% endblock content %}
 
-    </div>
+		</div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="newMailingModal" tabindex="-1" role="dialog" aria-labelledby="newMailingModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="newMailingModalLabel">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form class="new-mailing-form">
-              <div class="form-group">
-                <label for="titleInput">Название</label>
-                <input type="text" class="form-control" id="titleInput" aria-describedby="titleHelp" required>
-                <small id="titleHelp" class="form-text text-muted">Укажите название новой рассылки.</small>
-              </div>
-              <div class="form-group">
-                <label for="contentTextarea">Содержание</label>
-                <textarea class="form-control" id="contentTextarea" rows="3" aria-describedby="contentHelp" required></textarea>
-                <small id="contentHelp" class="form-text text-muted">Укажите содержание новой рассылки.</small>
-              </div>
-              <div class="form-group">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#datetimeCollapse" aria-expanded="false" aria-controls="datetimeCollapse">
-                  Отложенный запуск
-                </button>
-              </div>
-              <div class="form-group collapse" id="datetimeCollapse">
-                <label class="form-check-label" for="datetimepickerInput">Указать дату и время</label>
-                <div class="input-group date" id="datetimepickerBlock">
-                  <input type="text" class="form-control" id="datetimepickerInput" aria-describedby="datetimeHelp"/>
-                    <span class="input-group-addon">
+		{% block modal %}
+		<!-- Modal -->
+		<div class="modal fade" id="newMailingModal" tabindex="-1" role="dialog" aria-labelledby="newMailingModalLabel"
+		     aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="newMailingModalLabel">Modal title</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form class="new-mailing-form">
+							<div class="form-group">
+								<label for="titleInput">Название</label>
+								<input type="text" class="form-control" id="titleInput" aria-describedby="titleHelp" required>
+								<small id="titleHelp" class="form-text text-muted">Укажите название новой рассылки.</small>
+							</div>
+							<div class="form-group">
+								<label for="contentTextarea">Содержание</label>
+								<textarea class="form-control" id="contentTextarea" rows="3" aria-describedby="contentHelp"
+								          required></textarea>
+								<small id="contentHelp" class="form-text text-muted">Укажите содержание новой рассылки.</small>
+							</div>
+							<div class="form-group">
+								<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#datetimeCollapse"
+								        aria-expanded="false" aria-controls="datetimeCollapse">
+									Отложенный запуск
+								</button>
+							</div>
+							<div class="form-group collapse" id="datetimeCollapse">
+								<label class="form-check-label" for="datetimepickerInput">Указать дату и время</label>
+								<div class="input-group date" id="datetimepickerBlock">
+									<input type="text" class="form-control" id="datetimepickerInput" aria-describedby="datetimeHelp"/>
+									<span class="input-group-addon">
                       <span class="glyphicon glyphicon-calendar"></span>
                     </span>
-                </div>
-                <small id="datetimeHelp" class="form-text text-muted">Выберите дату и время старта новой рассылки.</small>
-              </div>
-              <button type="submit" class="btn btn-primary">Создать</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+								</div>
+								<small id="datetimeHelp" class="form-text text-muted">Выберите дату и время старта новой
+									рассылки.</small>
+							</div>
+							<button type="submit" class="btn btn-primary">Создать</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endblock modal %}
 
-    {% block modal %}{% endblock modal %}
+		<!-- Le javascript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		{% block javascript %}
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    {% block javascript %}
+		<!-- Bootstrap JS and its dependencies-->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		        crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		        crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		        crossorigin="anonymous"></script>
 
-      <!-- Bootstrap JS and its dependencies-->
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script
+				src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
-
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
-      <!-- Your stuff: Third-party javascript libraries go here -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet"
+		      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+		<!-- Your stuff: Third-party javascript libraries go here -->
 
 
-      <!-- place project specific Javascript in this file -->
-      <script type="text/javascript">
+		<!-- place project specific Javascript in this file -->
+		<script type="text/javascript">
         $(function () {
-          $('#datetimepickerBlock').datetimepicker();
+            $('#datetimepickerBlock').datetimepicker();
         });
         $(function () {
-          $('#datetimepickerInput').datetimepicker({
-            minDate:new Date()
-          });
+            $('#datetimepickerInput').datetimepicker({
+                minDate: new Date()
+            });
         });
-      </script>
-      <script src="{% static 'js/scripts.js' %}"></script>
+		</script>
+		<script src="{% static 'js/scripts.js' %}"></script>
 
-    {% endblock javascript %}
-  </body>
+		{% endblock javascript %}
+	</body>
 </html>
 
