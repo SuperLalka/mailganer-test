@@ -1,0 +1,18 @@
+# Django
+# ------------------------------------------------------------------------------
+django==1.9.9  # https://www.djangoproject.com/
+djangorestframework==3.6.4  # https://github.com/encode/django-rest-framework
+psycopg2==2.8.6 --no-binary psycopg2  # https://github.com/psycopg/psycopg2
+django-environ==0.4.5  # https://github.com/joke2k/django-environ
+django-extensions==2.1.0  # https://github.com/django-extensions/django-extensions
+Werkzeug==0.16.1  # https://github.com/pallets/werkzeug
+pathlib==1.0.1  # https://github.com/budlight/pathlib
+
+redis==3.5.3  # https://github.com/antirez/redis
+celery==4.0.0  # https://github.com/celery/celery
+vine==1.3.0  # https://github.com/celery/vine
+kombu==4.1.0  # https://github.com/celery/kombu
+
+django-celery-beat==1.0.1  # https://github.com/celery/django-celery-beat
+python-crontab==2.3.4  # https://gitlab.com/doctormo/python-crontab/
+flower==0.9.5  # https://github.com/mher/flower

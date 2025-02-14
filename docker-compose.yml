@@ -1,0 +1,69 @@
+version: '3'
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+  local_traefik: {}
+
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile
+    image: mg_django
+    container_name: mg_django
+    restart: always
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    env_file:
+      - ./.envs_example/.django
+      - ./.envs_example/.postgres
+    ports:
+      - "8000:8000"
+    command: ["sh", "compose/django/start"]
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/postgres/Dockerfile
+    image: mg_postgres
+    container_name: mg_postgres
+    restart: always
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_data_backups:/backups
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.envs_example/.postgres
+
+  rabbitmq:
+    image: rabbitmq:3.8-alpine
+    container_name: mg_rabbitmq
+    restart: always
+    env_file:
+      - ./.envs_example/.django
+
+  celeryworker:
+    <<: *django
+    image: mg_celeryworker
+    container_name: mg_celeryworker
+    restart: always
+    depends_on:
+      - rabbitmq
+      - postgres
+    ports: []
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: mg_celerybeat
+    container_name: mg_celerybeat
+    restart: always
+    depends_on:
+      - rabbitmq
+      - postgres
+    ports: []
+    command: /start-celerybeat

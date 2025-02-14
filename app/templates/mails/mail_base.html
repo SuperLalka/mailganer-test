@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru" dir="auto" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{% block styles %}
+	{% endblock styles %}
+</head>
+<body>
+<div>
+	<div>
+		<table align="center">
+			<tbody>
+			<tr>
+				<td>
+					<div>
+						<table>
+							<tbody>
+							<tr>
+								<td>
+									<img src="{{ open_tracking_url }}">
+									<div>
+										Рассылка
+									</div>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<div>
+		<table align="center">
+			<tbody>
+			<tr>
+				<td>
+					<div>
+						<table>
+							<tbody>
+							<tr>
+								<td>
+									<table>
+										<tbody>
+										<tr>
+											<td>
+												<div>
+													{% block template %}
+													{{ html_data|safe }}
+													{% endblock template %}
+												</div>
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</body>
+</html>
