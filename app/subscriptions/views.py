@@ -1,10 +1,15 @@
-
+from django.core import signing
 from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
+from rest_framework.decorators import list_route
 from rest_framework.response import Response
 
 from app.subscriptions.models import Mailing
-from app.subscriptions.serializers import RetrieveMailingSerializer, CreateMailingSerializer
+from app.subscriptions.serializers import (
+    CreateMailingSerializer,
+    RetrieveMailingSerializer,
+    CreateLettersStatusSerializer,
+)
 
 
 class MailingViewSet(viewsets.GenericViewSet):
@@ -21,6 +26,8 @@ class MailingViewSet(viewsets.GenericViewSet):
         return self.action_serializers.get(self.action, self.serializer_class)
 
     def list(self, request, *args, **kwargs):
+        from app.subscriptions.tasks import check_mailings
+        check_mailings.delay()
         queryset = self.get_queryset()
         serializer = self.get_serializer_class()(queryset, many=True)
         return Response(serializer.data)
@@ -36,3 +43,21 @@ class MailingViewSet(viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @list_route(methods=['GET'])
+    def open_tracking(self, request, *args, **kwargs):
+        signed_key = request.query_params.get('k')
+
+        try:
+            user_id, mailing_id = signing.loads(signed_key)
+        except Exception as err:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        instance = CreateLettersStatusSerializer(data={
+            'user': user_id,
+            'mailing': mailing_id,
+            'has_been_read': True
+        })
+        instance.is_valid(raise_exception=True)
+        instance.save()
+        return Response(status=status.HTTP_201_CREATED)

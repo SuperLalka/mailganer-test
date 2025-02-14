@@ -25,9 +25,17 @@ function newMailingFormProcessing(event) {
         async: false,
         type: 'POST',
         url: `/api/mailings/`,
-        data: data,
+        contentType: 'application/json',
+        data: JSON.stringify(data),
         success: function (data) {
-            alert('Success');
+            clearModal();
+            alert('Успешно создано');
         }
     });
+}
+
+
+function clearModal() {
+    $('.modal').find('input').val('');
+    $('.modal').find('textarea').val('');
 }

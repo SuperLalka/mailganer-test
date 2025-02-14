@@ -28,8 +28,9 @@ SECRET_KEY = '89vnoud$scqd3@32qx5ck7$s2ea0!ho%dl($kh_*lehvqq-g6!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
+MAIN_HOST = env("DJANGO_MAIN_HOST", default="127.0.0.1")
+MAIN_PROTOCOL = env("DJANGO_MAIN_PROTOCOL", default="http")
 
 # Application definition
 
@@ -155,6 +156,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'app/static/')]
+
+
+# Email
+# https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 # Your stuff...
